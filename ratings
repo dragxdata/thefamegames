@@ -1,0 +1,72 @@
+def create_matrix_grid():
+    matrix = []
+    for i in range(10):
+        row = []
+        for j in range(10):
+            row.append(0)
+        matrix.append(row)
+    return matrix
+
+def print_matrix_grid(matrix):
+    print("    ", end="")
+    for j in range(1, 11):
+        print(f"{j:3}", end="")
+    print()
+    for i, row in enumerate(matrix):
+        print(f"Queen {i+1:2} ", end="")
+        for element in row:
+            print(f"{element:3}", end="")
+        print()
+
+def get_user_scores(matrix):
+    scores = [0] * 10
+    for i, row in enumerate(matrix):
+        for j, element in enumerate(row):
+            scores[i] += (j+1) * element
+    return scores
+
+def get_max_score_index(scores):
+    max_score = max(scores)
+    max_index = scores.index(max_score)
+    return max_index
+
+# Create three matrix grid questions
+question1 = create_matrix_grid()
+question2 = create_matrix_grid()
+question3 = create_matrix_grid()
+
+# Prompt the user to fill in the matrix grids
+print("Please enter your answers for each matrix grid question:")
+print("Matrix Grid 1:")
+for i in range(10):
+    col_index = int(input(f"Enter the column index (1-10) for Queen {i+1}: "))
+    question1[i][col_index-1] = 1
+
+print("Matrix Grid 2:")
+for i in range(10):
+    col_index = int(input(f"Enter the column index (1-10) for Queen {i+1}: "))
+    question2[i][col_index-1] = 1
+
+print("Matrix Grid 3:")
+for i in range(10):
+    col_index = int(input(f"Enter the column index (1-10) for Queen {i+1}: "))
+    question3[i][col_index-1] = 1
+
+# Calculate scores for each matrix grid
+scores1 = get_user_scores(question1)
+scores2 = get_user_scores(question2)
+scores3 = get_user_scores(question3)
+
+# Calculate total scores across all questions
+total_scores = [scores1[i] + scores2[i] + scores3[i] for i in range(10)]
+
+# Sort queens based on their total points in descending order
+queens = sorted(enumerate(total_scores, 1), key=lambda x: x[1], reverse=True)
+
+# Display the results
+print("\nResults:")
+for queen, score in queens:
+    print(f"Queen {queen}: {score} points")
+
+max_index = queens[0][0]
+print("\nYou gave the most number of points to Queen", max_index)
